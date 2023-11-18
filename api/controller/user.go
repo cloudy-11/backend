@@ -20,6 +20,6 @@ func (uc *UserController) Fetch(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, domain.SuccessResponse[domain.User]{
 		Message: "success",
-		Data:    user,
+		Data:    *user,
 	})
 }
