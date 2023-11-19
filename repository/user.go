@@ -47,7 +47,7 @@ func (ur *userRepository) Fetch(c context.Context) ([]domain.User, error) {
 		return []domain.User{}, err
 	}
 
-	return users, err
+	return users, nil
 }
 
 func (ur *userRepository) GetByEmail(c context.Context, email string) (domain.User, error) {
