@@ -22,8 +22,15 @@ func (u *userUseCase) Fetch(c context.Context) ([]domain.User, error) {
 }
 
 func (u *userUseCase) GetByEmail(c context.Context, email string) (*domain.User, error) {
-	//TODO implement me
-	panic("implement me")
+	ctx, cancel := context.WithTimeout(c, u.contextTimeout)
+	defer cancel()
+
+	user, err := u.userRepository.GetByEmail(ctx, email)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
 
 func (u *userUseCase) GetByID(c context.Context, id string) (*domain.User, error) {

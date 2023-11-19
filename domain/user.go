@@ -11,7 +11,7 @@ const (
 )
 
 type User struct {
-	ID       primitive.ObjectID `bson:"_id"`
+	ID       primitive.ObjectID `bson:"_id" json:"id"`
 	Handle   string             `bson:"handle"`
 	Name     string             `bson:"name"`
 	Email    string             `bson:"email"`

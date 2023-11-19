@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/cloudy-11/backend/bootstrap"
 	"github.com/cloudy-11/backend/domain"
 	"net/http"
@@ -17,7 +16,6 @@ type SignupController struct {
 }
 
 func (sc *SignupController) Signup(c *gin.Context) {
-	fmt.Println("hello here")
 	var request domain.SignupRequest
 
 	err := c.ShouldBind(&request)
