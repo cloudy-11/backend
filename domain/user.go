@@ -13,6 +13,7 @@ const (
 type User struct {
 	ID       primitive.ObjectID `bson:"_id" json:"id"`
 	Handle   string             `bson:"handle"`
+	Role     string             `bson:"role"` //admin | user
 	Name     string             `bson:"name"`
 	Email    string             `bson:"email"`
 	Password string             `bson:"password" json:"-"`

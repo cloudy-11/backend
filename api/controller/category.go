@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/cloudy-11/backend/api/middleware"
 	"github.com/cloudy-11/backend/domain"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -12,6 +13,14 @@ type CategoryController struct {
 }
 
 func (cc *CategoryController) Create(c *gin.Context) {
+
+	role := c.GetString(middleware.X_USER_ROLE)
+	if role != domain.ADMIN_ROLE {
+		c.JSON(http.StatusForbidden, domain.ErrorResponse{
+			Message: "Not permission",
+		})
+		return
+	}
 	var request domain.Category
 	err := c.ShouldBind(&request)
 	if err != nil {

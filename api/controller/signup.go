@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/cloudy-11/backend/bootstrap"
 	"github.com/cloudy-11/backend/domain"
+	"github.com/google/uuid"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -41,8 +42,15 @@ func (sc *SignupController) Signup(c *gin.Context) {
 
 	request.Password = string(encryptedPassword)
 
+	handle, err := uuid.NewUUID()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+
 	user := domain.User{
 		ID:       primitive.NewObjectID(),
+		Handle:   handle.String(),
 		Email:    request.Email,
 		Password: request.Password,
 	}

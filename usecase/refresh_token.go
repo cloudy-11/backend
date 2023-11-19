@@ -33,6 +33,6 @@ func (rtu *refreshTokenUseCase) CreateRefreshToken(user *domain.User, secret str
 	return internal.CreateRefreshToken(user, secret, expiry)
 }
 
-func (rtu *refreshTokenUseCase) ExtractIDFromToken(requestToken string, secret string) (string, error) {
-	return internal.ExtractIDFromToken(requestToken, secret)
+func (rtu *refreshTokenUseCase) ExtractIDAndRoleFromToken(requestToken string, secret string) (string, string, error) {
+	return internal.ExtractIDAndRoleFromToken(requestToken, secret)
 }
