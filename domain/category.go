@@ -9,23 +9,30 @@ const (
 	CollectionCategory = "categories"
 )
 
+type CategorySearch struct {
+	Type  string `form:"type" binding:"omitempty"`
+	Level int8   `form:"level" binding:"omitempty"`
+	//Name  string `form:"name" binding:"omitempty"`
+}
+
 type Category struct {
-	ID    primitive.ObjectID `bson:"_id" json:"id"`
-	Type  string             `bson:"type" form:"type" biding:"required"`   // Coding | English
-	Level int8               `bson:"level" form:"level" biding:"required"` // Elementary | Intermediate | Advance
-	Name  string             `bson:"name" form:"name" biding:"required"`
+	ID     primitive.ObjectID `bson:"_id" json:"id"`
+	Type   string             `bson:"type" form:"type" biding:"required"`   // Coding | English
+	Level  int8               `bson:"level" form:"level" biding:"required"` // Elementary | Intermediate | Advance
+	Name   string             `bson:"name" form:"name" biding:"required"`
+	IsLock bool               `bson:"is_lock" form:"isLock,default=True"`
 }
 
 type CategoryRepository interface {
 	Create(c context.Context, category *Category) error
 	FetchById(c context.Context, id string) (*Category, error)
-	Fetch(c context.Context) ([]Category, error)
+	Fetch(c context.Context, query CategorySearch) ([]Category, error)
 	Delete(c context.Context, id string) error
 }
 
 type CategoryUseCase interface {
 	Create(c context.Context, category *Category) error
 	FetchById(c context.Context, id string) (*Category, error)
-	Fetch(c context.Context) ([]Category, error)
+	Fetch(c context.Context, query CategorySearch) ([]Category, error)
 	Delete(c context.Context, id string) error
 }

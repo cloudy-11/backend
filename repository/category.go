@@ -38,9 +38,34 @@ func (cr *categoryRepository) Create(c context.Context, category *domain.Categor
 	return err
 }
 
-func (cr *categoryRepository) Fetch(c context.Context) ([]domain.Category, error) {
+func (cr *categoryRepository) Fetch(c context.Context, query domain.CategorySearch) ([]domain.Category, error) {
 	collection := cr.database.Collection(cr.collection)
-	cursor, err := collection.Find(c, bson.D{})
+	var filter bson.A
+	filter = bson.A{
+		bson.D{
+			{"$match",
+				bson.D{
+					{"$and",
+						bson.A{
+							bson.D{{"type", query.Type}},
+							bson.D{{"level", query.Level}},
+						},
+					},
+				},
+			},
+		},
+	}
+	if query.Level == 0 {
+		filter = bson.A{
+			bson.D{
+				{"$match",
+					bson.D{{"type", query.Type}},
+				},
+			},
+		}
+	}
+
+	cursor, err := collection.Aggregate(c, filter)
 	if err != nil {
 		return nil, err
 	}

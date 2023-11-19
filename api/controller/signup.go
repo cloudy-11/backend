@@ -51,6 +51,7 @@ func (sc *SignupController) Signup(c *gin.Context) {
 	user := domain.User{
 		ID:       primitive.NewObjectID(),
 		Handle:   handle.String(),
+		Role:     domain.USER_ROLE,
 		Email:    request.Email,
 		Password: request.Password,
 	}
