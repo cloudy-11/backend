@@ -20,4 +20,6 @@ func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gi
 	protectedRouter := gin.Group("api/v1")
 	protectedRouter.Use(middleware.JwtAuthMiddleware(env.AccessTokenSecret))
 	NewUserRouter(env, timeout, db, protectedRouter)
+
+	NewCategoryRoute(env, timeout, db, publicRouter, protectedRouter)
 }

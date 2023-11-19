@@ -13,11 +13,28 @@ type categoryRepository struct {
 	collection string
 }
 
+func (cr *categoryRepository) FetchById(c context.Context, id string) (*domain.Category, error) {
+	collection := cr.database.Collection(cr.collection)
+	idHex, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	var category *domain.Category
+
+	err = collection.FindOne(c, bson.M{
+		"_id": idHex,
+	}).Decode(&category)
+	if err != nil {
+		return nil, err
+	}
+
+	return category, nil
+}
+
 func (cr *categoryRepository) Create(c context.Context, category *domain.Category) error {
 	collection := cr.database.Collection(cr.collection)
-
 	_, err := collection.InsertOne(c, category)
-
 	return err
 }
 
