@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/cloudy-11/backend/domain"
+	"github.com/cloudy-11/backend/internal"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -11,7 +12,7 @@ type UserController struct {
 }
 
 func (uc *UserController) Fetch(ctx *gin.Context) {
-	userID := ctx.GetString("x-user-id")
+	userID := ctx.GetString(internal.X_USER_ID)
 
 	user, err := uc.UserUseCase.GetByID(ctx, userID)
 	if err != nil {

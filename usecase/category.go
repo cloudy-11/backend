@@ -31,9 +31,12 @@ func (cc *categoryUseCase) Create(c context.Context, category *domain.Category) 
 	return err
 }
 
-func (cc *categoryUseCase) Fetch(c context.Context) ([]domain.Category, error) {
-	//TODO implement me
-	panic("implement me")
+func (cc *categoryUseCase) Fetch(c context.Context, query domain.CategorySearch) ([]domain.Category, error) {
+	ctx, cancel := context.WithTimeout(c, cc.contextTimeout)
+	defer cancel()
+
+	categories, err := cc.categoryRepository.Fetch(ctx, query)
+	return categories, err
 }
 
 func (cc *categoryUseCase) Delete(c context.Context, id string) error {

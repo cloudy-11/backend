@@ -19,4 +19,5 @@ func NewCategoryRoute(env *bootstrap.Env, timeout time.Duration, db mongo.Databa
 
 	private.POST("/category", cc.Create)
 	public.GET("/category/:id", cc.FetchById)
+	public.GET("/category", cc.Fetch)
 }

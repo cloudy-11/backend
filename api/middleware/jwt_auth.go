@@ -16,13 +16,14 @@ func JwtAuthMiddleware(secret string) gin.HandlerFunc {
 			authToken := t[1]
 			authorized, err := internal.IsAuthorized(authToken, secret)
 			if authorized {
-				userID, err := internal.ExtractIDFromToken(authToken, secret)
+				userID, role, err := internal.ExtractIDAndRoleFromToken(authToken, secret)
 				if err != nil {
 					c.JSON(http.StatusUnauthorized, domain.ErrorResponse{Message: err.Error()})
 					c.Abort()
 					return
 				}
-				c.Set("x-user-id", userID)
+				c.Set(internal.X_USER_ID, userID)
+				c.Set(internal.X_USER_ROLE, role)
 				c.Next()
 				return
 			}

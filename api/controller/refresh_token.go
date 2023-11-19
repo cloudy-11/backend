@@ -22,7 +22,7 @@ func (rtc *RefreshTokenController) RefreshToken(c *gin.Context) {
 		return
 	}
 
-	id, err := rtc.RefreshTokenUseCase.ExtractIDFromToken(request.RefreshToken, rtc.Env.RefreshTokenSecret)
+	id, _, err := rtc.RefreshTokenUseCase.ExtractIDAndRoleFromToken(request.RefreshToken, rtc.Env.RefreshTokenSecret)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, domain.ErrorResponse{Message: "User not found"})
 		return
