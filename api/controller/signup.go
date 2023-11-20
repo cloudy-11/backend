@@ -54,6 +54,7 @@ func (sc *SignupController) Signup(c *gin.Context) {
 		Role:     domain.USER_ROLE,
 		Email:    request.Email,
 		Password: request.Password,
+		Status:   domain.PENDING_STATUS,
 	}
 
 	err = sc.SignupUseCase.Create(c, &user)

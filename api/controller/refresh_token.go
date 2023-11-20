@@ -51,5 +51,8 @@ func (rtc *RefreshTokenController) RefreshToken(c *gin.Context) {
 		RefreshToken: refreshToken,
 	}
 
-	c.JSON(http.StatusOK, refreshTokenResponse)
+	c.JSON(http.StatusOK, domain.SuccessResponse[domain.RefreshTokenResponse]{
+		Message: "success",
+		Data:    refreshTokenResponse,
+	})
 }
