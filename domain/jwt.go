@@ -5,7 +5,7 @@ import "github.com/golang-jwt/jwt/v4"
 const (
 	USER_ROLE  = "user"
 	ADMIN_ROLE = "admin"
-	GUESS_ROLE = "guess"
+	GUEST_ROLE = "guest"
 )
 
 type JwtCustomClaims struct {

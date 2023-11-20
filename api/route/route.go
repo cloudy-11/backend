@@ -10,6 +10,7 @@ import (
 )
 
 func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gin.Engine) {
+
 	// Public APIs
 	publicRouter := gin.Group("api/v1")
 	NewLoginRouter(env, timeout, db, publicRouter)

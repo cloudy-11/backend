@@ -17,10 +17,10 @@ type CategorySearch struct {
 
 type Category struct {
 	ID     primitive.ObjectID `bson:"_id" json:"id"`
-	Type   string             `bson:"type" form:"type" biding:"required"`   // Coding | English
-	Level  int8               `bson:"level" form:"level" biding:"required"` // Elementary | Intermediate | Advance
-	Name   string             `bson:"name" form:"name" biding:"required"`
-	IsLock bool               `bson:"is_lock" form:"isLock,default=True"`
+	Type   string             `bson:"type" form:"type" biding:"required" json:"type"`    // Coding | English
+	Level  int8               `bson:"level" form:"level" biding:"required" json:"level"` // Elementary | Intermediate | Advance
+	Name   string             `bson:"name" form:"name" biding:"required" json:"name"`
+	IsLock bool               `bson:"is_lock" form:"isLock,default=True" json:"isLock"`
 }
 
 type CategoryRepository interface {

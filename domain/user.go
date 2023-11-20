@@ -8,14 +8,19 @@ import (
 
 const (
 	CollectionUser = "users"
+	ACTIVE_STATUS  = "active"
+	PENDING_STATUS = "pending"
+	BLOCK_STATUS   = "block"
+	DANGER_STATUS  = "danger"
 )
 
 type User struct {
 	ID       primitive.ObjectID `bson:"_id" json:"id"`
-	Handle   string             `bson:"handle"`
-	Role     string             `bson:"role"` //admin | user
-	Name     string             `bson:"name"`
-	Email    string             `bson:"email"`
+	Handle   string             `bson:"handle" json:"handle"`
+	Role     string             `bson:"role" json:"role"` //admin | user
+	Name     string             `bson:"name" json:"name"`
+	Email    string             `bson:"email" json:"email"`
+	Status   string             `bson:"status" json:"status"`
 	Password string             `bson:"password" json:"-"`
 }
 

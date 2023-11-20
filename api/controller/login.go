@@ -53,5 +53,8 @@ func (lc *LoginController) Login(c *gin.Context) {
 		RefreshToken: refreshToken,
 	}
 
-	c.JSON(http.StatusOK, loginResponse)
+	c.JSON(http.StatusOK, domain.SuccessResponse[domain.LoginResponse]{
+		Message: "success",
+		Data:    loginResponse,
+	})
 }

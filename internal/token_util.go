@@ -64,13 +64,13 @@ func ExtractIDAndRoleFromToken(requestToken string, secret string) (string, stri
 	})
 
 	if err != nil {
-		return "", domain.GUESS_ROLE, err
+		return "", domain.GUEST_ROLE, err
 	}
 
 	claims, ok := token.Claims.(jwt.MapClaims)
 
 	if !ok && !token.Valid {
-		return "", domain.GUESS_ROLE, fmt.Errorf("Invalid Token")
+		return "", domain.GUEST_ROLE, fmt.Errorf("Invalid Token")
 	}
 
 	return claims["id"].(string), claims["role"].(string), nil
