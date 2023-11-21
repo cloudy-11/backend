@@ -29,7 +29,8 @@ func CreateAccessToken(user *domain.User, secret string, expiry int) (accessToke
 
 func CreateRefreshToken(user *domain.User, secret string, expiry int) (refreshToken string, err error) {
 	claimsRefresh := &domain.JwtCustomRefreshClaims{
-		ID: user.ID.Hex(),
+		ID:   user.ID.Hex(),
+		Role: user.Role,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * time.Duration(expiry))),
 		},
@@ -72,6 +73,6 @@ func ExtractIDAndRoleFromToken(requestToken string, secret string) (string, stri
 	if !ok && !token.Valid {
 		return "", domain.GUEST_ROLE, fmt.Errorf("Invalid Token")
 	}
-
+	fmt.Println(claims)
 	return claims["id"].(string), claims["role"].(string), nil
 }
