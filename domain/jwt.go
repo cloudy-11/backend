@@ -17,6 +17,7 @@ type JwtCustomClaims struct {
 }
 
 type JwtCustomRefreshClaims struct {
-	ID string `json:"id"`
+	ID   string `json:"id"`
+	Role string `json:"role"`
 	jwt.RegisteredClaims
 }
