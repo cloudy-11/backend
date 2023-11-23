@@ -18,9 +18,10 @@ type CategorySearch struct {
 type Category struct {
 	ID     primitive.ObjectID `bson:"_id" json:"id"`
 	Type   string             `bson:"type" form:"type" biding:"required" json:"type"`    // Coding | English
+	Slug   string             `bson:"slug" json:"slug"`                                  // Coding | English
 	Level  int8               `bson:"level" form:"level" biding:"required" json:"level"` // Elementary | Intermediate | Advance
 	Name   string             `bson:"name" form:"name" biding:"required" json:"name"`
-	IsLock bool               `bson:"is_lock" form:"isLock,default=True" json:"isLock"`
+	IsLock bool               `bson:"is_lock" form:"isLock,default=true" json:"isLock"`
 }
 
 type CategoryRepository interface {

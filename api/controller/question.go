@@ -9,17 +9,12 @@ import (
 	"net/http"
 )
 
-const (
-	TYPE_CODE    = "code"
-	TYPE_ENGLISH = "english"
-)
-
-type CategoryController struct {
-	CategoryUserCase domain.CategoryUseCase
+type QuestionController struct {
+	QuestionUseCase domain.QuestionUseCase
 }
 
-func (cc *CategoryController) Create(c *gin.Context) {
-
+func (q *QuestionController) Create(c *gin.Context) {
+	// Check role
 	role := c.GetString(internal.X_USER_ROLE)
 	if role != domain.ADMIN_ROLE {
 		c.JSON(http.StatusForbidden, domain.ErrorResponse{
@@ -27,7 +22,9 @@ func (cc *CategoryController) Create(c *gin.Context) {
 		})
 		return
 	}
-	var request domain.Category
+
+	// binding body
+	var request domain.Question
 	err := c.ShouldBind(&request)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{
@@ -37,10 +34,11 @@ func (cc *CategoryController) Create(c *gin.Context) {
 	}
 
 	request.ID = primitive.NewObjectID()
-	request.Slug = slug.Make(request.Name)
+	request.Slug = slug.Make(request.Title)
 	request.IsLock = true
 
-	err = cc.CategoryUserCase.Create(c, &request)
+	err = q.QuestionUseCase.Create(c, &request)
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{
 			Message: err.Error(),
@@ -48,53 +46,55 @@ func (cc *CategoryController) Create(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, domain.SuccessResponse[domain.Category]{
+	c.JSON(http.StatusCreated, domain.SuccessResponse[domain.Question]{
 		Message: "Created Successful",
 		Data:    request,
 	})
 }
 
-func (cc *CategoryController) FetchById(c *gin.Context) {
-	category, err := cc.CategoryUserCase.FetchById(c, c.Param("id"))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
-		return
-	}
-
-	if category == nil {
-		c.JSON(http.StatusNotFound, domain.ErrorResponse{
-			Message: "Record not found",
-		})
-		return
-	}
-
-	c.JSON(http.StatusOK, domain.SuccessResponse[domain.Category]{
-		Message: "Successfully",
-		Data:    *category,
-	})
-}
-
-func (cc *CategoryController) Fetch(c *gin.Context) {
-	var request domain.CategorySearch
+func (q *QuestionController) Fetch(c *gin.Context) {
+	var request domain.QuestionSearch
 	err := c.BindQuery(&request)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
-	if (request.Type != TYPE_CODE) && (request.Type != TYPE_ENGLISH) {
-		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: "Type not exist"})
-		return
-	}
 
-	categories, err := cc.CategoryUserCase.Fetch(c, request)
+	questions, err := q.QuestionUseCase.Fetch(c, request)
 	if err != nil {
 		c.JSON(http.StatusNotFound, domain.ErrorResponse{
 			Message: err.Error(),
 		})
 		return
 	}
-	c.JSON(http.StatusOK, domain.SuccessResponse[[]domain.Category]{
+	if questions == nil {
+		c.JSON(http.StatusNotFound, domain.ErrorResponse{
+			Message: "Record not found",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, domain.SuccessResponse[[]domain.Question]{
 		Message: "success",
-		Data:    categories,
+		Data:    questions,
+	})
+}
+
+func (q *QuestionController) FetchById(c *gin.Context) {
+	question, err := q.QuestionUseCase.FetchById(c, c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+
+	if question == nil {
+		c.JSON(http.StatusNotFound, domain.ErrorResponse{
+			Message: "Record not found",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, domain.SuccessResponse[domain.Question]{
+		Message: "Successfully",
+		Data:    *question,
 	})
 }

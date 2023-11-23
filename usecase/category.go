@@ -16,11 +16,8 @@ func (cc *categoryUseCase) FetchById(c context.Context, id string) (*domain.Cate
 	defer cancel()
 
 	category, err := cc.categoryRepository.FetchById(ctx, id)
-	if err != nil {
-		return nil, err
-	}
 
-	return category, nil
+	return category, err
 }
 
 func (cc *categoryUseCase) Create(c context.Context, category *domain.Category) error {
