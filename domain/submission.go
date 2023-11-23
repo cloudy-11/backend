@@ -1,0 +1,38 @@
+package domain
+
+import (
+	"context"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"time"
+)
+
+const (
+	CollectionSubmission = "submissions"
+)
+
+type Submission struct {
+	ID         primitive.ObjectID `bson:"_id" json:"id"`
+	QuestionId string             `bson:"question_id" form:"questionId" json:"questionId"`
+	UserId     string             `bson:"user_id" json:"userId"`
+	Status     string             `bson:"status" json:"status"`                     // accept | pending | wrong
+	Describe   string             `bson:"describe" form:"describe" json:"describe"` // accept | pending | wrong
+	Code       string             `bson:"code" form:"code" json:"code"`             // accept | pending | wrong
+	CreatedAt  time.Time          `bson:"created_at" json:"createdAt"`
+}
+
+type SubmissionQuery struct {
+	UserId string `form:"userId"`
+	Status string `form:"status"`
+}
+
+type SubmissionRepository interface {
+	Create(c context.Context, submission *Submission) error
+	FetchById(c context.Context, id string) (*Submission, error)
+	Fetch(c context.Context, query SubmissionQuery) ([]Submission, error)
+}
+
+type SubmissionUseCase interface {
+	Create(c context.Context, submission *Submission) error
+	FetchById(c context.Context, id string) (*Submission, error)
+	Fetch(c context.Context, query SubmissionQuery) ([]Submission, error)
+}
