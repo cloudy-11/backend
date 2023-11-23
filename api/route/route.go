@@ -23,4 +23,5 @@ func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gi
 	NewUserRouter(env, timeout, db, protectedRouter)
 
 	NewCategoryRoute(env, timeout, db, publicRouter, protectedRouter)
+	NewQuestionRoute(env, timeout, db, publicRouter, protectedRouter)
 }
