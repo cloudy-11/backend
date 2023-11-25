@@ -13,6 +13,14 @@ type submissionUseCase struct {
 	contextTimeout    time.Duration
 }
 
+func (s *submissionUseCase) Update(c context.Context, body *domain.SubmissionUpdate) error {
+	ctx, cancel := context.WithTimeout(c, s.contextTimeout)
+	defer cancel()
+
+	err := s.submissionUseCase.Update(ctx, body)
+	return err
+}
+
 func (s *submissionUseCase) Create(c context.Context, submission *domain.Submission) error {
 	ctx, cancel := context.WithTimeout(c, s.contextTimeout)
 	defer cancel()

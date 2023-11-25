@@ -90,3 +90,32 @@ func (s *SubmissionController) Fetch(c *gin.Context) {
 		Data:    submissions,
 	})
 }
+
+func (s *SubmissionController) Update(c *gin.Context) {
+	var request domain.SubmissionUpdate
+	err := c.ShouldBind(&request)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+
+	_, err = s.SubmissionUseCase.FetchById(c, c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+
+	request.ID = c.Param("id")
+
+	err = s.SubmissionUseCase.Update(c, &request)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, domain.ErrorResponse{
+			Message: err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, domain.SuccessResponse[domain.Submission]{
+		Message: "Update Successful",
+	})
+}

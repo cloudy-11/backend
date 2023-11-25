@@ -40,6 +40,7 @@ func (cr *categoryRepository) Create(c context.Context, category *domain.Categor
 
 func (cr *categoryRepository) Fetch(c context.Context, query domain.CategorySearch) ([]domain.Category, error) {
 	collection := cr.database.Collection(cr.collection)
+
 	var filter bson.A
 	filter = bson.A{
 		bson.D{
