@@ -25,14 +25,21 @@ type SubmissionQuery struct {
 	Status string `form:"status"`
 }
 
+type SubmissionUpdate struct {
+	ID     string `form:"id"`
+	Status string `form:"status" json:"status"` // accept | pending | wrong
+}
+
 type SubmissionRepository interface {
 	Create(c context.Context, submission *Submission) error
+	Update(c context.Context, body *SubmissionUpdate) error
 	FetchById(c context.Context, id string) (*Submission, error)
 	Fetch(c context.Context, query SubmissionQuery) ([]Submission, error)
 }
 
 type SubmissionUseCase interface {
 	Create(c context.Context, submission *Submission) error
+	Update(c context.Context, body *SubmissionUpdate) error
 	FetchById(c context.Context, id string) (*Submission, error)
 	Fetch(c context.Context, query SubmissionQuery) ([]Submission, error)
 }

@@ -22,6 +22,7 @@ type User struct {
 	Email    string             `bson:"email" json:"email"`
 	Status   string             `bson:"status" json:"status"`
 	Password string             `bson:"password" json:"-"`
+	Ghost    int32              `bson:"ghost" json:"ghost"`
 }
 
 type UserRepository interface {

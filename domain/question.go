@@ -22,7 +22,7 @@ type Question struct {
 	Level       int8               `bson:"level" form:"level" biding:"required" json:"level"` // Elementary | Intermediate | Advance
 	IsLock      bool               `bson:"is_lock" form:"isLock,default=True" json:"isLock"`
 	Slug        string             `bson:"slug" json:"slug"`
-	Ghost       int8               `bson:"ghost" form:"ghost" biding:"required" json:"ghost"`
+	Ghost       int32              `bson:"ghost" form:"ghost" biding:"required" json:"ghost"`
 }
 
 type QuestionRepository interface {

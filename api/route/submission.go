@@ -19,6 +19,7 @@ func NewSubmissionRote(env *bootstrap.Env, timeout time.Duration, db mongo.Datab
 	}
 
 	private.POST("/submission", sc.Create)
+	private.PATCH("/submission/:id", sc.Update)
 	public.GET("/submission/:id", sc.FetchById)
 	public.GET("/submission", sc.Fetch)
 }
