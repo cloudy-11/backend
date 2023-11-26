@@ -5,6 +5,7 @@ import (
 	"github.com/cloudy-11/backend/bootstrap"
 	"github.com/gin-contrib/cors"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -29,6 +30,7 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 	route.Setup(env, timeout, db, gin)
+	port := ":" + os.Getenv("PORT")
 
-	gin.Run(env.ServerAddress)
+	gin.Run(port)
 }
