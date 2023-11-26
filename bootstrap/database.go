@@ -13,15 +13,8 @@ func NewMongoDatabase(env *Env) mongo.Client {
 	defer cancel()
 
 	dbHost := env.DBHost
-	dbPort := env.DBPort
-	dbUser := env.DBUser
-	dbPass := env.DBPass
 
-	mongodbURI := fmt.Sprintf("mongodb://%s:%s@%s:%s", dbUser, dbPass, dbHost, dbPort)
-
-	if dbUser == "" || dbPass == "" {
-		mongodbURI = fmt.Sprintf("mongodb://%s:%s", dbHost, dbPort)
-	}
+	mongodbURI := fmt.Sprintf("%s", dbHost)
 
 	client, err := mongo.NewClient(mongodbURI)
 	if err != nil {

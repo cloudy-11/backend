@@ -7,11 +7,11 @@ import (
 )
 
 const (
-	CollectionUser = "users"
-	ACTIVE_STATUS  = "active"
-	PENDING_STATUS = "pending"
-	BLOCK_STATUS   = "block"
-	DANGER_STATUS  = "danger"
+	CollectionUser      = "users"
+	USER_ACTIVE_STATUS  = "active"
+	USER_PENDING_STATUS = "pending"
+	USER_BLOCK_STATUS   = "block"
+	USER_DANGER_STATUS  = "danger"
 )
 
 type User struct {

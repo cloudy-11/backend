@@ -28,6 +28,7 @@ func (s *SubmissionController) Create(c *gin.Context) {
 	request.ID = primitive.NewObjectID()
 	request.UserId = userID
 	request.CreatedAt = time.Now()
+	request.Status = domain.SUBMISSION_PENDING_STATUS
 
 	err = s.SubmissionUseCase.Create(c, &request)
 

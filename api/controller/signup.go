@@ -31,6 +31,11 @@ func (sc *SignupController) Signup(c *gin.Context) {
 		return
 	}
 
+	if len(request.Password) < 8 {
+		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: "Password must greater or equal to 8 characters"})
+		return
+	}
+
 	encryptedPassword, err := bcrypt.GenerateFromPassword(
 		[]byte(request.Password),
 		bcrypt.DefaultCost,
@@ -54,7 +59,7 @@ func (sc *SignupController) Signup(c *gin.Context) {
 		Role:     domain.USER_ROLE,
 		Email:    request.Email,
 		Password: request.Password,
-		Status:   domain.PENDING_STATUS,
+		Status:   domain.USER_PENDING_STATUS,
 		Ghost:    50,
 	}
 

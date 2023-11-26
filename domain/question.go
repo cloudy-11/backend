@@ -17,8 +17,8 @@ type Question struct {
 	ID          primitive.ObjectID `bson:"_id" json:"id"`
 	CategoryId  string             `bson:"category_id" form:"categoryId" biding:"required" json:"categoryId"`
 	Title       string             `bson:"title" form:"title" biding:"required" json:"title"`
+	Url         string             `bson:"url" form:"url" biding:"required" json:"url"`
 	Description string             `bson:"description" form:"description" biding:"required" json:"description"`
-	Examples    []string           `bson:"examples" form:"examples" biding:"required" json:"examples"`
 	Level       int8               `bson:"level" form:"level" biding:"required" json:"level"` // Elementary | Intermediate | Advance
 	IsLock      bool               `bson:"is_lock" form:"isLock,default=True" json:"isLock"`
 	Slug        string             `bson:"slug" json:"slug"`
