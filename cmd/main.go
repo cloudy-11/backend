@@ -6,6 +6,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -23,14 +24,17 @@ func main() {
 	gin := gin.Default()
 	// CORS
 	gin.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{env.Origins},
+		AllowOrigins:     strings.Split(env.Origins, ","),
 		AllowMethods:     []string{http.MethodGet, http.MethodPost, http.MethodPatch, http.MethodDelete},
 		AllowHeaders:     []string{"*"},
 		AllowCredentials: false,
 		MaxAge:           12 * time.Hour,
 	}))
 	route.Setup(env, timeout, db, gin)
+	// For heroku deploy
 	port := ":" + os.Getenv("PORT")
+	// For server deploy
+	//gin.Run(env.ServerAddress)
 
 	gin.Run(port)
 }
